@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Car Specifications</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #262626;
+    color: #ccc;
+  }
+  .container {
+    max-width: 100%;
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  h1 {
+    text-align: center;
+    color: #fff;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+  }
+  .top-bar {
+    background-color: #1a1a1a;
+    padding: 10px 20px;
+    text-align: left;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  .company-name {
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .category {
+    margin-bottom: 20px;
+    padding-top: 60px; /* Adjust for the top bar */
+  }
+  .category h2 {
+    border-bottom: 2px solid #fff;
+    padding-bottom: 5px;
+    color: #fff;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  .spec {
+    margin-bottom: 10px;
+  }
+  .spec label {
+    font-weight: bold;
+    color: #bbb;
+  }
+  .spec p {
+    margin: 5px 0;
+    color: #ccc;
+  }
+  .color {
+    margin-left: 16px
+  }
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="company-name">
+    <p style="font-size: 20px" onclick="window.location.href='/'">Company Name</p>
+  </div>
+</div>
+<div style="height: 60px"></div>
+<div class="container">
+  <h1 id="vehicleName">Car Specifications</h1>
+  <div class="w3-row" id="set-top">
+    <div class="w3-row">
+        <h2>General</h2><hr>
+        <div class="w3-half color">
+            
+            <p id="type"></p>
+            <p id="wheels"></p>
+            <p id="cost"></p>
+            <p id="catagory"></p>
+            <p id="seats"></p>
+            <p id="doors"></p>
+            <p id="weight"></p>
+            <p id="dimensions"></p>
+            <p id="ground-clear"></p>
+            <p id="road-legal"></p>
+        </div>
+
+        <h2>Performance</h2><hr>
+        <div class="w3-half color">
+            <p id="top-speed"></p>
+            <p id="zero60"></p>
+            <p id="zero100"></p>
+            <p id="nurb"></p>
+            <p id="launch"></p>
+            <p id="cornering-gs"></p>
+        </div>
+
+        <h2>Engine</h2><hr>
+        <div class="w3-half color">
+            <p style="display: inline"><p id="engineType" style="display: inline"></p><p id="cylinders" style="display: inline"></p></p>
+            <p id="displacement"></p>
+            <p id="location"></p>
+            <p id="horsepower"></p>
+            <p id="bhp"></p>
+            <p style="display: inline"><p id="torque" style="display: inline"></p><p id="torqueRPM" style="display: inline"></p></p>
+            <p id="turbos"></p>
+            <p id="supers"></p>
+            <p id="compression"></p>
+            <p id="bore-stroke"></p>
+            <p id="power-weight"></p>
+            <p id="redline"></p>
+        </div>
+
+        <h2>Transmission</h2><hr>
+        <div class="w3-half color">
+            <p id="gears"></p>
+            <p id="control"></p>
+        </div>
+
+        <h2>Fuel</h2><hr>
+        <div class="w3-half color">
+            <p id="fuel-type"></p>
+            <p id="tank"></p>
+            <p id="city-mpg"></p>
+            <p id="high-mpg"></p>
+            <p id="range"></p>
+            <p id="injection"></p>
+        </div>
+    </div>
+</div>
+<script src="vehicle.js"></script>
+  <!-- More categories here -->
+</div>
+</body>
+</html>

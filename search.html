@@ -1,0 +1,199 @@
+<html>
+  <head>
+    <title>Search</title>
+    <link rel="stylesheet" href="w3.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <style>
+    .head {
+        margin: auto;
+        margin-left: -1%
+    }
+    hr {
+        background-color: black
+    }
+    .search-result {
+        text-decoration: none;
+        cursor: pointer
+    }
+    .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        max-height: 80%;
+        overflow: auto
+
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        overflow-y: scroll
+    }
+    .inline {
+        display: inline
+    }
+    .content {
+        border: 1px solid #000;
+        padding: 20px;
+    }
+    .link {
+        text-decoration: underline;
+        cursor: pointer;
+        color: blue
+    }
+    #vin-popup {
+        display: none
+    }
+    #vin-step2 {
+        display: none
+    }
+    .triangle-left {
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent; /* Adjust size as needed */
+        border-bottom: 10px solid transparent; /* Adjust size as needed */
+        border-right: 15px solid black; /* Adjust size and color as needed */
+        cursor: pointer
+    }
+    .flex {
+        display: flex
+    }
+    .el {
+        width: 100%;
+        height: 100%
+    }
+    #display-error {
+        display: none
+    }
+  </style>
+  <body>
+    <div class="w3-bar w3-padding w3-card head w3-half popup">
+        <div class="w3-wide">
+            <div class="w3-threequarter" style="display: inline">
+                <h3>Find Automobile</h3>
+                <input type="text" id="search" placeholder="Search brands, models, year" class="w3-input w3-margin-top" style="width: 100%">
+            </div>
+        </div>
+        <br><br>
+        <div id="res" style="display: none; z-index: 100000"><br><br><br></div>
+        <div class="w3-bar">
+            <p>Cant find your car? Click <a class="link" onclick="document.getElementById('vin-popup').style.display = 'block'">here</a></p>
+        </div>
+    </div>
+    <div id="vin-popup" class="w3-bar w3-padding w3-card head w3-twothird popup">
+        <h3>Insert VIN Number</h3>
+        <p>There is no personal information connected to a VIN Number. If you want to learn more visit <a href="https://vpic.nhtsa.dot.gov/decoder/">NHTSA.gov</a>.</p>
+
+        <input type="text" id="vin" class="w3-input w3-half" placeholder="VIN" value="1HGCP2F3OCAO75867">
+        <input type="text" id="year" class="w3-input w3-half" placeholder="Model Year (Optional)" value="2012">
+        <br><br>
+        <button class="w3-button w3-black" onclick="submitVin()">Check</button>
+        <button class="w3-button w3-black" onclick="document.getElementById('vin-popup').style.display = 'none'">Cancel</button>
+    </div>
+    <div id="vin-step2" class="w3-bar w3-padding w3-card head w3-twothird popup">
+        <h3 id="vehicleName"></h3>
+        <p>Thank you for submitting a vehicle. Theres just a little more we need...</p>
+        <p>Please fill these in to the best of your ability. If you are unable to find some information then leave the field blank.</p>
+        
+        <div class="w3-margin">
+            <h4>Performance</h4>
+            <div class="w3-half">
+                <br>
+                <label for="top-speed">Top Speed</label><input type="number" id="top-speed" class="w3-input" placeholder="mph">
+            </div>
+
+            <div class="w3-half">
+                <br>
+                <label for="0-60m">0 - 60mph</label><input type="number" id="0-60m" class="w3-input" placeholder="Seconds">
+            </div>
+
+            <div class="w3-half">
+                <br>
+                <label for="0-80k">0 - 80kph</label><input type="number" id="0-80k" class="w3-input" placeholder="Seconds">
+            </div>
+
+            <div class="w3-half">
+                <br>
+                <label for="0-100m">0 - 100mph</label><input type="number" id="0-100m" class="w3-input" placeholder="Seconds">
+            </div>
+
+            <div class="w3-half">
+                <br>
+                <label for="0-100k">0 - 100kph</label><input type="number" id="0-100k" class="w3-input" placeholder="Seconds">
+            </div>
+
+            <div class="w3-half">
+                <br>
+                <label for="0-160k">0 - 160kph</label><input type="number" id="0-160k" class="w3-input" placeholder="Seconds">
+            </div>
+
+            <div class="w3-half">
+                <br>
+                <label for="nurb">Nurburgring Nordschleife Lap Time</label><input type="number" id="nurb" class="w3-input" placeholder="ex: 11:20.22">
+            </div>
+
+            <div class="w3-half">
+                <br>
+                <label for="clear">Ground Clearance</label><input type="number" id="clear" class="w3-input" placeholder="mm">
+            </div>
+
+            <div class="w3-half">
+                <br>
+                <label for="torque">Torque</label><input type="number" id="torque" class="w3-input" placeholder="lb - ft">
+            </div>
+
+            <div class="w3-half">
+                <br>
+                <label for="torqueRPM">@ RPM</label><input type="number" id="torqueRPM" class="w3-input" placeholder="rpm">
+            </div>
+        </div>
+        <div class="w3-margin" style="display: default">
+            <div class="w3-half">
+                <br>
+                <label for="city">City MPG</label><input type="number" id="city" class="w3-input" placeholder="mpg">
+            </div>
+
+            <div class="w3-half">
+                <br>
+                <label for="highway">Higway MPG</label><input type="number" id="highway" class="w3-input" placeholder="mpg">
+            </div>
+            
+            <div class="w3-half">
+                <br>
+                <label for="tank">Tank Size</label><input type="number" id="tank" class="w3-input" placeholder="gallons">
+            </div>
+
+            <div class="w3-half">
+                <br>
+                <label for="width">Width (Inches)</label><input type="number" id="width" class="w3-input" placeholder="In">
+            </div>
+
+            <div class="w3-half">
+                <br>
+                <label for="height">Height (Inches)</label><input type="number" id="height" class="w3-input" placeholder="In">
+            </div>
+
+            <div class="w3-half">
+                <br>
+                <label for="length">Length (Inches)</label><input type="number" id="length" class="w3-input" placeholder="In">
+            </div>
+        </div>
+        <br>
+        <button class="w3-button w3-black" onclick="submitVehicle()">Submit</button>
+
+    </div>
+    <div id="display-error" class="w3-bar w3-padding w3-card head w3-twothird popup">
+        <h3>There was an error</h3>
+        <p id="error-text"></p>
+        <p>You can manually insert information <a href="/">here</a>. If you don't know what specifications this vehicle has you can submit a vehicle request form <a href="/">here</a></p>
+        <button class="w3-button w3-black" id="error-return">Return</button>
+    </div>
+    <script src="search.js"></script>
+  </body>
+</html>
+
