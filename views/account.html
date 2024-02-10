@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <title>Account</title>
+        <link rel="stylesheet" href="w3.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <style>
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid #000000;
+            background-color: white;
+            display: none
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%
+        }
+        .content {
+            border: 1px solid #000;
+            padding: 20px;
+        }
+    </style>
+    <body>
+        <div id="signin-popup" class="w3-half popup">
+            <div class="w3-margin">
+                <h3>Create Account</h3>
+
+                <input type="text" class="w3-input" id="new-username" placeholder="Username"><br>
+                <input type="password" class="w3-input" id="new-password" placeholder="Password"><br>
+                <button class="w3-button w3-black" onclick="submit()">Submit</button>
+            </div>
+        </div>
+
+        <!--Account body-->
+        <div class="container">
+            <div class="content w3-half">
+                <h1 id="accountName"></h1>
+                <p id="cars"></p>
+            </div>
+        </div>
+        <script src="storage.js"></script>
+        <script src="account.js"></script>
+    </body>
+</html>

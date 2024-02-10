@@ -1,0 +1,106 @@
+<html>
+    <head>
+        <title>Check Requested Vehicles</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="w3.css">
+    </head>
+    <body>
+        <h2>Vehicle Verification System</h2>
+        <div id="results"></div>
+        <script>
+            let file
+            window.onload = async function() {
+                let res = await fetch('/requests')
+                let json = await res.json()
+                file = json
+                load(json)
+            }
+            function load(data) {
+                let container = document.getElementById('results')
+                data.pop()
+                
+                for(let i in data) {
+                    let wrapper = document.createElement('div')
+                    let curr = JSON.parse(data[i])
+
+                    wrapper.setAttribute('class', 'w3-bar w3-wide w3-margin')
+
+                    wrapper.innerHTML = `
+                        <h3>${curr.details.year} ${curr.details.brand} ${curr.details.model} ${curr.details.series} ${curr.details.trim}</h3>
+
+                        <p>TOP SPEED: <input type="text" value="${curr.speed.topSpeed}" id="1${i}"></p>
+                        <p>0 - 60MPH: <input type="text" value="${curr.speed.zeroTo60}" id="2${i}"></p>
+                        <p>0 - 80KPH: <input type="text" value="${curr.speed.zeroTo80kph}" id="3${i}"></p>
+                        <p>0 - 100MPH: <input type="text" value="${curr.speed.zeroTo100}" id="4${i}"></p>
+                        <p>0 - 100KPH: <input type="text" value="${curr.speed.zeroTo100kph}" id="5${i}"></p>
+                        <p>0 - 160KPH: <input type="text" value="${curr.speed.zeroTo160kph}" id="6${i}"></p>
+                        <p>NURBERGRING LAP TIME:<input type="text" value="${curr.speed.nurburgringLapTime}" id="7${i}"></p>
+                        <p>TORQUE: <input type="text" value="${curr.engine.torque}" id="8${i}"></p>
+                        <p>TORQUE RPM: <input type="text" value="${curr.engine.torqueRPM}" id="9${i}"></p>
+                        <p>CLEARANCE: <input type="text" value="${curr.general.clearence}" id="0${i}"></p>
+                        
+                        <div class="w3-margin-right">
+                            <button class="w3-button w3-blue" onclick="submit(${i})">All Good!</button>
+                            <button class="w3-button w3-red" onclick="reject(${i})">No Good.</button>
+                        </div>
+                        <hr>
+
+                    `
+
+                    container.appendChild(wrapper)
+                }
+            }
+
+            function submit(number) {
+                let data = JSON.parse(file[number])
+                let num = number.toString()
+                
+                data.speed.topSpeed = document.getElementById('1' + num).value
+                data.speed.zeroTo60 = document.getElementById('2' + num).value
+                data.speed.zeroTo80kph = document.getElementById('3' + num).value
+                data.speed.zeroTo100 = document.getElementById('4' + num).value
+                data.speed.zeroTo100kph = document.getElementById('5' + num).value
+                data.speed.zeroTo160kph = document.getElementById('6' + num).value
+                data.speed.nurburgringLapTime = document.getElementById('7' + num).value
+                data.engine.torque = document.getElementById('8' + num).value
+                data.engine.torqueRPM = document.getElementById('9' + num).value
+                data.general.clearence = document.getElementById('0' + num).value
+
+                postData('/acceptVehicle', {data: data, line: number}, function() {
+                    location.reload()
+                })
+
+            }
+            function reject(num) {
+                let data = {line: num}
+
+                postData('rejectVehicle', data, function() {
+                    location.reload()
+                })
+            }
+            // Example POST method implementation:
+            async function postData(url, data, callback) {
+                // Default options are marked with *
+                const response = await fetch(url, {
+                    method: "POST", // *GET, POST, PUT, DELETE, etc.
+                    mode: "cors", // no-cors, *cors, same-origin
+                    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: "same-origin", // include, *same-origin, omit
+                    headers: {
+                    "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    redirect: "follow", // manual, *follow, error
+                    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                    body: JSON.stringify(data), // body data type must match "Content-Type" header
+                });
+                return response.json(); // parses JSON response into native JavaScript objects
+
+                if(callback != undefined) {
+                    callback()
+                }
+            }
+        </script>
+    </body>
+</html>
